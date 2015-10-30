@@ -6,7 +6,7 @@ public class Yelp {
 
 	public static void main(String[] args) throws IOException {
 		YelpAPI yelp = new YelpAPI();
-		Business[] b = yelp.returnBusinesses(yelp, "Happy Hour", "91210", "url", 10);
+		Business[] b = yelp.returnBusinesses(yelp, "Happy Hour", "91210", 10);
 
 		for (Business q : b) {
 			System.out.println(q);
