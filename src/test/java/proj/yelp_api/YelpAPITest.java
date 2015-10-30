@@ -23,5 +23,15 @@ public class YelpAPITest {
 		params = yelp.returnParam(yelp, "The Hat", "91210", "url", 1);
 		assertEquals(params[0], theHatURL);
 	}
-	
+
+	@Test
+	public void testSearchByCity()
+	{
+		YelpAPI api = new YelpAPI();
+		Business[] location;
+
+		location = api.returnBusinesses(api,"Yard House","Chino Hills", 1);
+
+		assertEquals(location[0].getPhone(),"9095909424");
+	}
 }
