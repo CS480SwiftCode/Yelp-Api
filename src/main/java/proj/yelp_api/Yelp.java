@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Yelp {
 
 	public static void main(String[] args) throws IOException {
-		YelpAPI yelp = new YelpAPI();
+		YelpAPI yelp = YelpAPI.getInstance();
 		Business[] b = yelp.returnBusinesses(yelp, "Happy Hour", "91210", 10);
 
 		for (Business q : b)

@@ -26,7 +26,8 @@ public class YelpAPI {
 	private static final String CONSUMER_SECRET;
 	private static final String TOKEN;
 	private static final String TOKEN_SECRET;
-
+	private static YelpAPI instance = null;
+	
 	OAuthService service;
 	Token accessToken;
 
@@ -44,14 +45,30 @@ public class YelpAPI {
 			throw new RuntimeException("Init failed. Requires key.cfg.");
 		}
 	}
+	public static YelpAPI getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new YelpAPI();
+		}
+		return instance;
+	}
+	public static YelpAPI getInstance(String consumerKey, String consumerSecret, String token, String tokenSecret)
+	{
+		if(instance == null)
+		{
+			instance = new YelpAPI(consumerKey, consumerSecret, token, tokenSecret);
+		}
+		return instance;
+	}
 
-	public YelpAPI() {
+	private YelpAPI() {
 		this.service = new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(CONSUMER_KEY).apiSecret(CONSUMER_SECRET)
 				.build();
 		this.accessToken = new Token(TOKEN, TOKEN_SECRET);
 	}
 
-	public YelpAPI(String consumerKey, String consumerSecret, String token, String tokenSecret) {
+	private YelpAPI(String consumerKey, String consumerSecret, String token, String tokenSecret) {
 		this.service = new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(consumerKey).apiSecret(consumerSecret)
 				.build();
 		this.accessToken = new Token(token, tokenSecret);

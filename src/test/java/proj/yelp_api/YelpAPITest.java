@@ -6,7 +6,7 @@ public class YelpAPITest {
 	@Test
 	public void evaluatesExpression() // Connor's A6.
 	{
-		YelpAPI tester = new YelpAPI();
+		YelpAPI tester = YelpAPI.getInstance();;
 		Business[] b = tester.returnBusinesses(tester, "Happy Hour", "91210", 1);
 		String name = "The Famous";
 		assertEquals(name, b[0].getName());
@@ -16,7 +16,7 @@ public class YelpAPITest {
 	@Test
 	public void testReturnParam()	// Zenas' A6.
 	{
-		YelpAPI yelp = new YelpAPI();
+		YelpAPI yelp = YelpAPI.getInstance();;
 		String[] params;
 		String theHatURL = "http://www.yelp.com/biz/the-hat-brea";
 		
@@ -27,7 +27,7 @@ public class YelpAPITest {
 	@Test
 	public void testSearchByCity()
 	{
-		YelpAPI api = new YelpAPI();
+		YelpAPI api = YelpAPI.getInstance();;
 		Business[] location;
 
 		location = api.returnBusinesses(api,"Yard House","Chino Hills", 1);
