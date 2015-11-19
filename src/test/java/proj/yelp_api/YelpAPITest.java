@@ -20,7 +20,7 @@ public class YelpAPITest {
 		String[] params;
 		String theHatURL = "http://www.yelp.com/biz/the-hat-brea";
 		
-		params = yelp.returnParam(yelp, "The Hat", "91210", "url", 1);
+		params = yelp.returnParam(yelp, "The Hat", "91210", 1, "url");
 		assertEquals(params[0], theHatURL);
 	}
 

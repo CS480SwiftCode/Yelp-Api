@@ -165,75 +165,17 @@ public class YelpAPI {
 		Business[] businesses = new Business[limit];
 		JSONArray businessJSON = queryAPI(yelp, term, location, limit);
 
-		for (int i = 0; i < businessJSON.size(); i++) {
-			Business b = new Business();
-
-			JSONObject obj = (JSONObject) businessJSON.get(i);
-			JSONObject loc = (JSONObject) obj.get("location");
-			JSONObject coord = (JSONObject) loc.get("coordinate");
-
-			b.setName((String) obj.get("name"));
-			try 
-			{
-				b.setLocationAddress((String) ((JSONArray) (loc.get("address"))).get(0));
-			} 
-			catch (Exception e) 
-			{
-				// e.printStackTrace();
-				// Rare case of no address. Will be set to null.
-			}
-			b.setCity((String) loc.get("city"));
-			b.setState((String) loc.get("state_code"));
-			b.setZipCode((String) loc.get("postal_code"));
-			b.setCountryCode((String) loc.get("country_code"));
-			b.setUrl((String) obj.get("url"));
-			b.setPhone((String) obj.get("phone"));
-			b.setRating((double) obj.get("rating"));
-			b.setLatitude((double) coord.get("latitude"));
-			b.setLongitude((double) coord.get("longitude"));
-
-			businesses[i] = b;
-		}
-		return businesses;
+		return fillArray(businesses, businessJSON);
 	}
-	
+
 	public Business[] returnBusinesses(YelpAPI yelp, String term, String location, String param, int limit, int radius) {
 		Business[] businesses = new Business[limit];
 		JSONArray businessJSON = queryAPI(yelp, term, location, limit, radius);
 
-		for (int i = 0; i < businessJSON.size(); i++) {
-			Business b = new Business();
-
-			JSONObject obj = (JSONObject) businessJSON.get(i);
-			JSONObject loc = (JSONObject) obj.get("location");
-			JSONObject coord = (JSONObject) loc.get("coordinate");
-
-			b.setName((String) obj.get("name"));
-			try 
-			{
-				b.setLocationAddress((String) ((JSONArray) (loc.get("address"))).get(0));
-			} 
-			catch (Exception e) 
-			{
-				// e.printStackTrace();
-				// Rare case of no address. Will be set to null.
-			}
-			b.setCity((String) loc.get("city"));
-			b.setState((String) loc.get("state_code"));
-			b.setZipCode((String) loc.get("postal_code"));
-			b.setCountryCode((String) loc.get("country_code"));
-			b.setUrl((String) obj.get("url"));
-			b.setPhone((String) obj.get("phone"));
-			b.setRating((double) obj.get("rating"));
-			b.setLatitude((double) coord.get("latitude"));
-			b.setLongitude((double) coord.get("longitude"));
-
-			businesses[i] = b;
-		}
-		return businesses;
+		return fillArray(businesses, businessJSON);
 	}
 	
-	public String[] returnParam(YelpAPI yelp, String term, String location, String param, int limit) 
+	public String[] returnParam(YelpAPI yelp, String term, String location, int limit, String param)
 	{
 		JSONArray businesses = queryAPI(yelp, term, location, limit);
 		String[] listOfParam = new String[limit];
@@ -246,7 +188,7 @@ public class YelpAPI {
 		return listOfParam;
 	}	
 	
-	public String[] returnParam(YelpAPI yelp, String term, String location, String param, int limit, int radius) 
+	public String[] returnParam(YelpAPI yelp, String term, String location, int limit, int radius, String param)
 	{
 		JSONArray businesses = queryAPI(yelp, term, location, limit, radius);
 		String[] listOfParam = new String[limit];
@@ -257,5 +199,73 @@ public class YelpAPI {
 			listOfParam[i] = (String) obj.get(param);
 		}
 		return listOfParam;
+	}
+	public Business[] fillArray(Business[] businesses, JSONArray businessJSON)
+	{
+		for (int i = 0; i < businessJSON.size(); i++) {
+			Business b = new Business();
+
+			JSONObject obj = (JSONObject) businessJSON.get(i);
+			JSONObject loc = (JSONObject) obj.get("location");
+			JSONObject coord = (JSONObject) loc.get("coordinate");
+
+			b.setName((String) obj.get("name"));
+			try
+			{
+				b.setLocationAddress((String) ((JSONArray) (loc.get("address"))).get(0));
+			}
+			catch (Exception e)
+			{
+				// e.printStackTrace();
+				// Rare case of no address. Will be set to null.
+				System.out.println("Null address. Skipping.");
+			}
+			b.setCity((String) loc.get("city"));
+			b.setState((String) loc.get("state_code"));
+			b.setZipCode((String) loc.get("postal_code"));
+			b.setCountryCode((String) loc.get("country_code"));
+			b.setUrl((String) obj.get("url"));
+			b.setPhone((String) obj.get("phone"));
+			b.setRating((double) obj.get("rating"));
+			b.setLatitude((double) coord.get("latitude"));
+			b.setLongitude((double) coord.get("longitude"));
+
+			businesses[i] = b;
+		}
+		return businesses;
+	}
+	public Business[] fillArray2(Business[] businesses, JSONArray businessJSON)
+	{
+		for (int i = 0; i < businessJSON.size(); i++) {
+			BusinessBuilder b = new BusinessBuilder();
+					
+			JSONObject obj = (JSONObject) businessJSON.get(i);
+			JSONObject loc = (JSONObject) obj.get("location");
+			JSONObject coord = (JSONObject) loc.get("coordinate");
+
+			b.withName((String) obj.get("name"));
+			try
+			{
+				b.withLocationAddress((String) ((JSONArray) (loc.get("address"))).get(0));
+			}
+			catch (Exception e)
+			{
+				// e.printStackTrace();
+				// Rare case of no address. Will be set to null.
+				System.out.println("Null address. Skipping.");
+			}
+			b.withCity((String) loc.get("city"));
+			b.withState((String) loc.get("state_code"));
+			b.withZipCode((String) loc.get("postal_code"));
+			b.withCountryCode((String) loc.get("country_code"));
+			b.withUrl((String) obj.get("url"));
+			b.withPhone((String) obj.get("phone"));
+			b.withRating((double) obj.get("rating"));
+			b.withLatitude((double) coord.get("latitude"));
+			b.withLongitude((double) coord.get("longitude"));
+
+			businesses[i] = b.build();
+		}
+		return businesses;
 	}
 }

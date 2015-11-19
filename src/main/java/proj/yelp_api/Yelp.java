@@ -8,8 +8,14 @@ public class Yelp {
 		YelpAPI yelp = new YelpAPI();
 		Business[] b = yelp.returnBusinesses(yelp, "Happy Hour", "91210", 10);
 
-		for (Business q : b) {
+		for (Business q : b)
+		{
 			System.out.println(q);
+		}
+
+		for (Business q : b)
+		{
+			System.out.println(q.getUrl());
 		}
 
 		generateCsvFile("test.csv", b);
